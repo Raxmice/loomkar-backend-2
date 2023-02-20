@@ -1,9 +1,18 @@
-var http = require("http");
+const connectToMongo = require('./db');
+var cors = require('cors')
+const express = require('express')
+const app = express()
+app.use(cors())
+const port = process.env.PORT || 5000
 
-//create a server object:
-http
-  .createServer(function(req, res) {
-    res.write("Hello World!"); //write a response to the client
-    res.end(); //end the response
-  })
-  .listen(8080); //the server object listens on port 8080
+app.use(express.json())
+
+
+//routs
+app.use('/api/pro', require('./routs/apis'))
+
+app.listen(port, () => {
+  console.log(`server port ${port}`)
+})
+
+connectToMongo();
